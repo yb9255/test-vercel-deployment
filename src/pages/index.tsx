@@ -1,10 +1,24 @@
 import Homepage from '@/components/Homepage';
+import { getFeaturedPosts } from '../../lib/posts-util';
+import { Post } from '@/components/Posts/type';
 
-function Home() {
-  return <Homepage />;
+import type { GetStaticProps, InferGetStaticPropsType } from 'next';
+
+function Home({ posts }: InferGetStaticPropsType<typeof getStaticProps>) {
+  return <Homepage posts={posts} />;
 }
 
-export default Home;
+export const getStaticProps = (async () => {
+  const featuredPosts = getFeaturedPosts();
 
-//Hero
-//FeaturedPost
+  return {
+    props: {
+      posts: featuredPosts,
+    },
+    revalidate: 50,
+  };
+}) satisfies GetStaticProps<{
+  posts: Post[];
+}>;
+
+export default Home;
