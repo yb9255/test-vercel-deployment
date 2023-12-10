@@ -6,13 +6,15 @@ import ReactMarkdown from 'react-markdown';
 import Image from 'next/image';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { atomDark } from 'react-syntax-highlighter/dist/cjs/styles/prism';
+import Head from 'next/head';
 
 type Props = {
   post: Post;
 };
 
 function PostDetailPage({ post }: Props) {
-  const { title, slug, image, content } = post;
+  const { title, slug, image, content, excerpt } = post;
+
   const customRenderers = {
     p(paragraph: any) {
       const { node } = paragraph;
@@ -48,10 +50,16 @@ function PostDetailPage({ post }: Props) {
   };
 
   return (
-    <article className={classes.content}>
-      <PostHeader title={title} slug={slug} image={image} />
-      <ReactMarkdown components={customRenderers}>{content}</ReactMarkdown>
-    </article>
+    <>
+      <Head>
+        <title>{title}</title>
+        <meta name="description" content={excerpt} />
+      </Head>
+      <article className={classes.content}>
+        <PostHeader title={title} slug={slug} image={image} />
+        <ReactMarkdown components={customRenderers}>{content}</ReactMarkdown>
+      </article>
+    </>
   );
 }
 
