@@ -44,7 +44,7 @@ async function handler(req: ContactNextApiRequest, res: NextApiResponse<Data>) {
     let client;
 
     try {
-      client = await MongoClient.connect(process.env.MONGODB_URL);
+      client = await MongoClient.connect(process.env.mongodbUrl);
     } catch (error) {
       res.status(500).json({ message: 'Could not connect to db' });
       return;
