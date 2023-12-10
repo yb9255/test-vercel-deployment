@@ -6,8 +6,12 @@ import type {
   InferGetStaticPropsType,
 } from 'next';
 import { getPostData, getPostFiles } from '../../../lib/posts-util';
+import { useRouter } from 'next/router';
 
 function PostDetail({ post }: InferGetStaticPropsType<typeof getStaticProps>) {
+  const router = useRouter();
+  if (router.isFallback) return <div>Loading...</div>;
+
   return <PostDetailPage post={post} />;
 }
 
