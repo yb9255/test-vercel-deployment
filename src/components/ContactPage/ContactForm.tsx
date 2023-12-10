@@ -2,6 +2,7 @@ import classes from '@/styles/contact-form.module.css';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import Notification from '@/ui/Notification';
 import { CustomError } from '@/types';
+import { createPortal } from 'react-dom';
 
 function ContactForm() {
   const emailRef = useRef<HTMLInputElement>(null);
@@ -124,9 +125,12 @@ function ContactForm() {
           <button>Send Message</button>
         </div>
       </form>
-      {responseStatus !== 'unset' && notificationData && (
-        <Notification {...notificationData} />
-      )}
+      {responseStatus !== 'unset' &&
+        notificationData &&
+        createPortal(
+          <Notification {...notificationData} />,
+          document.querySelector('#notifications') as HTMLDivElement
+        )}
     </section>
   );
 }
